@@ -4926,7 +4926,7 @@ window.__gb={get followers(){return followers},setMode:m=>{mode=m;},mariaSpawn:(
 </div>
 <script>
 (function(){
- if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){});});}
+ if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(function(r){try{r.update();}catch(e){}}).catch(function(){});});}
  var standalone=matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone;
  var bar=document.getElementById('pwaBar'),go=document.getElementById('pwaGo'),txt=document.getElementById('pwaTxt'),ev=null;
  function seen(){try{return localStorage.getItem('laviPwaNo')==='1';}catch(e){return false;}}
