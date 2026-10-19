@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="it"><head>
 <meta charset="utf-8">
-<title>Lavi, da Firenze al Perù</title>
+<title>LaviMon · Da Firenze al Perù</title>
 <meta name="description" content="Un gioco in pixel art: la vita di Lavi a Firenze, fino alla partenza per Lima.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#ffcf9e">
+<meta name="theme-color" content="#231a4e">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Lavi">
-<meta name="application-name" content="Lavi">
-<meta property="og:title" content="Lavi, da Firenze al Perù">
+<meta name="apple-mobile-web-app-title" content="LaviMon">
+<meta name="application-name" content="LaviMon">
+<meta property="og:title" content="LaviMon · Da Firenze al Perù">
 <meta property="og:description" content="Un gioco in pixel art: la vita di Lavi a Firenze, fino alla partenza per Lima.">
 <meta property="og:image" content="icon-512.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -113,7 +113,7 @@ body{background:linear-gradient(170deg,#ffcf9e 0%,#f7a98a 38%,#c99bc8 75%,#9d8cc
 </head>
 <body>
 <div id="console">
-  <div id="screenWrap"><div class="stripe"><i></i>LAVI · DA FIRENZE AL PERÙ<i></i></div><div class="led"></div><div id="screenBox"><canvas id="screen" width="240" height="160" aria-label="Lavi, da Firenze al Perù"></canvas></div></div>
+  <div id="screenWrap"><div class="stripe"><i></i>LAVIMON · DA FIRENZE AL PERÙ<i></i></div><div class="led"></div><div id="screenBox"><canvas id="screen" width="240" height="160" aria-label="Lavi, da Firenze al Perù"></canvas></div></div>
   <div class="logo">Firenze <span>→</span> Lima</div>
   <div id="controls">
     <div class="dpad"><div class="cross"><div class="c"></div><button id="pad-up" aria-label="Su">▲</button><button id="pad-down" aria-label="Giù">▼</button><button id="pad-left" aria-label="Sinistra">◀</button><button id="pad-right" aria-label="Destra">▶</button></div></div>
@@ -3074,7 +3074,7 @@ renderTitle=function(){const A=titleArt();ctx.drawImage(A.sky,0,0);
  ctx.save();ctx.translate(0,138);for(let x=0;x<W;x+=16){for(let j=0;j<2;j++){ctx.fillStyle=((x/16+j)%2)?'#c6bca6':'#cfc6b2';ctx.fillRect(x,j*12,16,12);ctx.fillStyle='#ada38e';ctx.fillRect(x,j*12+11,16,1);ctx.fillRect(x+((j%2)?0:8),j*12,1,12);}}ctx.restore();
  ctx.fillStyle='rgba(30,15,30,.18)';ctx.fillRect(0,138,W,22);
  // titolo
- ctx.font='16px "Press Start 2P", monospace';ctx.textBaseline='top';const tw=ctx.measureText('LAVI').width;ctx.fillStyle='#2a1020';ctx.fillText('LAVI',W/2-tw/2+2,7);ctx.fillStyle='#801c30';ctx.fillText('LAVI',W/2-tw/2+1,6);ctx.fillStyle='#f8f0d8';ctx.fillText('LAVI',W/2-tw/2,5);
+ ctx.font='20px "Press Start 2P", monospace';ctx.textBaseline='top';const TT='LAVIMON',tw=ctx.measureText(TT).width,tx=Math.round(W/2-tw/2),ty=3;ctx.fillStyle='#1a2350';for(const[dx,dy]of[[3,4],[2,4],[4,3]])ctx.fillText(TT,tx+dx,ty+dy);ctx.fillStyle='#2c4aa8';for(let dx=-2;dx<=2;dx++)for(let dy=-2;dy<=2;dy++)if(dx||dy)ctx.fillText(TT,tx+dx,ty+dy);ctx.fillStyle='#ffcb05';ctx.fillText(TT,tx,ty);ctx.fillStyle='#fff3a0';ctx.save();ctx.beginPath();ctx.rect(0,ty,W,6);ctx.clip();ctx.fillText(TT,tx,ty);ctx.restore();ctx.font=FONT;
  textAt('DA FIRENZE AL PERÙ',W/2,25,'#f8d878',true);if(Math.floor(t*2)%2)textAt('A: INIZIA',W/2,38,'#f8f8f0',true);textAt('B: CAPITOLI',W/2,49,'#e8d8c8',true);
  // tutti in strada davanti alla Grotta
  const f=k=>Math.floor(t*2+k)%2?0:2;
@@ -4995,7 +4995,7 @@ window.__gb={get followers(){return followers},setMode:m=>{mode=m;},mariaSpawn:(
 </script>
 
 <div id="pwaBar" hidden style="position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:50;display:flex;gap:8px;align-items:center;background:#2b2238;border:2px solid #e8c860;border-radius:10px;padding:8px 10px;font:10px 'Press Start 2P',monospace;color:#f8f0d8;box-shadow:0 4px 16px rgba(0,0,0,.5);max-width:92vw">
- <span id="pwaTxt">Installa Lavi sul telefono</span>
+ <span id="pwaTxt">Installa LaviMon sul telefono</span>
  <button id="pwaGo" style="font:inherit;background:#e8c860;color:#2b2238;border:0;border-radius:6px;padding:6px 8px">INSTALLA</button>
  <button id="pwaNo" style="font:inherit;background:none;color:#f8f0d8;border:0;padding:6px">X</button>
 </div>
