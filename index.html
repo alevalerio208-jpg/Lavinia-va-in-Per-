@@ -80,6 +80,34 @@ body{background:linear-gradient(170deg,#ffcf9e 0%,#f7a98a 38%,#c99bc8 75%,#9d8cc
 #endScreen h2{font:18px/1.5 var(--px);color:var(--gold);margin:0 0 14px}
 #endScreen p{font:10px/1.8 var(--px);color:var(--ink);max-width:36ch;margin:0 auto 20px}
 #endScreen button{font:11px var(--px);background:var(--gold);color:#201a10;border:0;padding:12px 18px;cursor:pointer;box-shadow:0 4px 0 #6a5420}
+
+/* ---- telefono in verticale: la console occupa tutto lo schermo e si adatta ---- */
+@media (orientation:portrait){
+ html,body{background:#e6dfd3}
+ #console{inset:0;border-radius:0;display:flex;flex-direction:column;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 8px) max(8px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 8px) max(8px,env(safe-area-inset-left,0px));
+  --d:clamp(128px,min(40vw,24vh),210px);--b:clamp(54px,min(18vw,10.5vh),88px)}
+ #console::before{display:none}
+ #screenWrap{flex:none;padding:20px 8px 10px 8px;border-radius:8px 8px 30px 8px}
+ #screenWrap .led{left:10px;top:8px;width:6px;height:6px}
+ #screenWrap .led::after{display:none}
+ #screenWrap .stripe{left:22px;right:10px;top:7px}
+ .logo{flex:none;margin:0 0 0 4px;font-size:clamp(10px,3vw,14px)}
+ #controls{flex:1;min-height:0;align-self:stretch;display:grid;grid-template-areas:"dpad ab" "mid mid";grid-template-rows:1fr auto;align-items:center;row-gap:clamp(8px,2vh,24px);padding:0 2px calc(env(safe-area-inset-bottom,0px)*0 + 54px) 2px!important}
+ .mid{padding-right:36px}
+ .dpad{width:var(--d);height:var(--d);margin-left:4px}
+ .dpad .cross{inset:4%}
+ .dpad button,.dpad .c{width:33.34%;height:33.34%}
+ #pad-up{left:33.33%;top:0}#pad-down{left:33.33%;bottom:0}#pad-left{left:0;top:33.33%}#pad-right{right:0;top:33.33%}
+ .dpad .c{left:33.33%;top:33.33%}
+ .dpad .c::after{left:28%;top:28%;width:44%;height:44%}
+ .dpad button{font-size:calc(var(--d)/14)}
+ .ab{gap:calc(var(--b)*0.25);padding:calc(var(--b)*0.13) calc(var(--b)*0.16);margin-right:6px}
+ .ab button{width:var(--b);height:var(--b);font-size:calc(var(--b)/5)}
+ #btnB{margin-top:calc(var(--b)*0.5)}
+ .pill{font-size:clamp(7px,2vw,9px)}
+ .pill::before{width:clamp(40px,12vw,56px);height:clamp(11px,3vw,14px)}
+ .speaker{right:22px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px)}
+}
 #hapt{position:fixed;left:-100px;top:-100px;width:1px;height:1px;opacity:0;pointer-events:none}
 </style>
 </head>
@@ -103,7 +131,7 @@ const TS=16,W=240,H=160,VW=15,VH=10;
 const view=document.getElementById('screen');const vctx=view.getContext('2d');
 const buf=document.createElement('canvas');buf.width=W;buf.height=H;const ctx=buf.getContext('2d');
 const FONT='8px "Press Start 2P", monospace';
-function fit(){const box=document.getElementById('screenBox');const land=innerWidth>innerHeight;const ctl=document.getElementById('controls'),lg=document.querySelector('.logo');const used=360;const bw=box.clientWidth,bh=land?box.clientHeight:Math.max(160,innerHeight-used);let s=Math.min(bw/W,bh/H);s=s>=2?Math.floor(s):Math.max(1,s);view.width=W*Math.ceil(s);view.height=H*Math.ceil(s);view.style.width=Math.round(W*s)+'px';view.style.height=Math.round(H*s)+'px';vctx.imageSmoothingEnabled=false;}
+function fit(){const box=document.getElementById('screenBox');const land=innerWidth>innerHeight;const ctl=document.getElementById('controls'),lg=document.querySelector('.logo');const used=Math.max(300,innerHeight*0.42);const bw=box.clientWidth,bh=land?box.clientHeight:Math.max(160,innerHeight-used);let s=Math.min(bw/W,bh/H);s=s>=2?Math.floor(s):Math.max(1,s);view.width=W*Math.ceil(s);view.height=H*Math.ceil(s);view.style.width=Math.round(W*s)+'px';view.style.height=Math.round(H*s)+'px';vctx.imageSmoothingEnabled=false;}
 addEventListener('resize',fit);
 const R=(c,x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(x|0,y|0,w|0,h|0);};
 const mk=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c;};
@@ -4865,7 +4893,11 @@ DEX.push(['GIANNI','Misericordia','Volontario della Misericordia, sempre insieme
 // ===================== LA CONSOLE: tasti che si abbassano, click e vibrazione =====================
 (function(){const C=document.getElementById('console');if(!C)return;
  const hap=document.getElementById('hapt');let lastBuzz=0;
- function buzz(ms){const n=performance.now();if(n-lastBuzz<35)return;lastBuzz=n;try{if(navigator.vibrate){navigator.vibrate(ms);return;}}catch(e){}try{if(hap)hap.click();}catch(e){}}
+ const IOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+ function iosTap(){try{const l=document.createElement('label');l.ariaHidden='true';l.style.display='none';const i=document.createElement('input');i.type='checkbox';i.setAttribute('switch','');l.appendChild(i);document.head.appendChild(l);l.click();document.head.removeChild(l);}catch(e){}}
+ let hapOn=true;try{hapOn=localStorage.getItem('laviHaptic')!=='0';}catch(e){}
+ function buzz(ms){if(!hapOn)return;const n=performance.now();if(n-lastBuzz<30)return;lastBuzz=n;
+  if(!IOS&&navigator.vibrate){try{navigator.vibrate(ms);}catch(e){}return;}iosTap();}
  function tick(kind){try{if(!AC||muted)return;const tm=AC.currentTime;if(kind==='pad'){tone(2400,tm,0.008,'square',0.012);}else if(kind==='pill'){tone(1500,tm,0.01,'square',0.012);tone(900,tm+0.012,0.012,'square',0.01);}else{tone(1900,tm,0.01,'square',0.016);tone(420,tm+0.005,0.03,'triangle',0.05);}}catch(e){}}
  const dp=C.querySelector('.dpad');
  function down(el,on,kind){if(!el)return;if(on){if(el.classList.contains('down'))return;el.classList.add('down');buzz(kind==='pad'?8:12);tick(kind);}else el.classList.remove('down');

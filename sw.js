@@ -1,6 +1,6 @@
 // ===== Lavi, da Firenze al Perù: service worker =====
 // OGNI VOLTA CHE AGGIORNI IL GIOCO: cambia il numero qui sotto (lavi-v1 -> lavi-v2 -> lavi-v3 ...)
-const CACHE = 'lavi-v1';
+const CACHE = 'lavi-v3';
 
 // Tutti i file del gioco (percorsi relativi). Il gioco è un unico index.html con font, suoni e grafica dentro.
 const FILES = [
