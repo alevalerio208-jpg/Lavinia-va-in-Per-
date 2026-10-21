@@ -540,7 +540,7 @@ const MAPS={
    {id:'gilda_g',sp:'gilda',x:1,y:5,dir:'down',lines:[['GILDA','Buona fortuna in Perù, bella! E congratulazioni per tutto quello che hai costruito. A prestissimo!!!']]},
    {id:'edi_g',sp:'edi',x:2,y:5,dir:'down',lines:[['EDI','Buon viaggio Lavi. Vai in Perù distruggila e torna vincitrice']]},
    {id:'jatniel_g',sp:'jatniel',x:6,y:5,dir:'down',lines:[['JATNIEL','¡Buena suerte en Perú, Lavi! Congratulazioni per tutti i tuoi progressi! A presto!!!']]},
-   {id:'antonella_g',sp:'antonella',x:7,y:5,dir:'down',lines:[['ANTONELLA','Lavi, buona fortuna per tutto in Perù! Congratulazioni per tutti i tuoi traguardi. A presto!!!']]},
+   {id:'antonella_g',sp:'antonella',x:7,y:5,dir:'down',lines:[['ANTONELLA','Lavi, buona fortuna per tutto in Perù! Congratulazioni per tutti i tuoi traguardi. A presto!!!'],["ANTONELLA", "La fuga di cervelli e' innarestabile nel nostro paese,ma se sapevo che ti piaceva tanto il Peru' ti ci avrei mandata......prima.😂.Congratulazioni dott.ssa Sacco.Ti auguro ogni bene.Buon viaggio.Anto"]]},
    {id:'roberto_g',sp:'roberto',x:8,y:5,dir:'down',lines:[['ROBERTO','Buona fortuna per tutto in Perù, Lavi. E congratulazioni per tutti i tuoi progressi. A presto!']]},
    {id:'saadi_g',sp:'saadi',x:11,y:5,dir:'down',lines:[
     ['SAADI','Ma davvero mi lasci qui da solo/a con 500 posate ancora da impacchettare?!'],
@@ -735,7 +735,7 @@ let bannerT=0,bannerText='';function showBanner(s){bannerText=s;bannerT=2.4;}
 function toast(s,d){toastText=s;toastT=d||1.8;}
 
 // ---------- dialogue ----------
-function wrap(text,max=26){if(text.includes('\n'))return text.split('\n').flatMap(x=>wrap(x,max));const words=text.split(' ');const lines=[];let cur='';for(const w of words){if((cur+' '+w).trim().length>max){lines.push(cur.trim());cur=w;}else cur+=' '+w;}if(cur.trim())lines.push(cur.trim());return lines;}
+function wrap(text,max=26){if(text.includes('\n'))return text.split('\n').flatMap(x=>wrap(x,max));const words=[];text.split(' ').forEach(w=>{while([...w].length>max){const ch=[...w];let cut=-1;for(let k=Math.min(max,ch.length-1);k>max*0.4;k--){if('.,;:!?)'.includes(ch[k-1])){cut=k;break;}}if(cut<0)cut=max;words.push(ch.slice(0,cut).join(''));w=ch.slice(cut).join('');}words.push(w);});const lines=[];let cur='';for(const w of words){if((cur+' '+w).trim().length>max){lines.push(cur.trim());cur=w;}else cur+=' '+w;}if(cur.trim())lines.push(cur.trim());return lines;}
 let talker=null;const camO={x:0,y:0};function camUpd(){let tx=0,ty=0;const n=(mode==='dialog'&&dlg&&dlg.talker)||null;if(n&&n.px!==undefined){tx=(n.px-pl.px)/2;ty=(n.py-pl.py)/2;}if(map&&map.camBias){const b=map.camBias();tx+=b.x;ty+=b.y;}camO.x+=(tx-camO.x)*0.12;camO.y+=(ty-camO.y)*0.12;}function openDialog(lines,onEnd){lines.forEach(l=>markSeen(l[0]));const pages=[];lines.forEach(([who,text])=>{const L=wrap(text,who?22:27);for(let i=0;i<L.length;i+=2)pages.push([L[i],L[i+1]||'',who||'']);});dlg={pages,pi:0,ci:0,acc:0,onEnd,talker};talker=null;mode='dialog';}
 function dlgAdvance(){if(!dlg)return;const pg=dlg.pages[dlg.pi];const total=pg[0].length+pg[1].length;if(dlg.ci<total){dlg.ci=total;return;}dlg.pi++;dlg.ci=0;dlg.acc=0;sfx('blip');if(dlg.pi>=dlg.pages.length){const cb=dlg.onEnd;dlg=null;mode=scriptRunning?'script':'play';if(cb)cb();}}
 
